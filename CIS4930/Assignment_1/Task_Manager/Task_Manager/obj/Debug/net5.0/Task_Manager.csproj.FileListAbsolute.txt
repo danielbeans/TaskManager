@@ -1,0 +1,15 @@
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/bin/Debug/net5.0/Task_Manager.deps.json
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/bin/Debug/net5.0/Task_Manager.runtimeconfig.json
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/bin/Debug/net5.0/Task_Manager.runtimeconfig.dev.json
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/bin/Debug/net5.0/Task_Manager.dll
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/bin/Debug/net5.0/ref/Task_Manager.dll
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/bin/Debug/net5.0/Task_Manager.pdb
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.csproj.AssemblyReference.cache
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.GeneratedMSBuildEditorConfig.editorconfig
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.AssemblyInfoInputs.cache
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.AssemblyInfo.cs
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.csproj.CoreCompileInputs.cache
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.dll
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/ref/Task_Manager.dll
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.pdb
+/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/Debug/net5.0/Task_Manager.genruntimeconfig.cache

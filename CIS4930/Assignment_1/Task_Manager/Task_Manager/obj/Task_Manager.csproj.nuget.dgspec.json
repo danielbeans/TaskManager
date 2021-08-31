@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/Task_Manager.csproj": {}
+  },
+  "projects": {
+    "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/Task_Manager.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/Task_Manager.csproj",
+        "projectName": "Task_Manager",
+        "projectPath": "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/Task_Manager.csproj",
+        "packagesPath": "/Users/danielwilliams/.nuget/packages/",
+        "outputPath": "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/danielwilliams/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
