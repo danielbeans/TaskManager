@@ -8,24 +8,31 @@
     "net5.0": []
   },
   "packageFolders": {
-    "/Users/danielwilliams/.nuget/packages/": {}
+    "C:\\Users\\danie\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/Task_Manager.csproj",
+      "projectUniqueName": "C:\\cygwin64\\home\\danie\\FSU_CS\\CIS4930\\Assignment_1\\Task_Manager\\Task_Manager\\Task_Manager.csproj",
       "projectName": "Task_Manager",
-      "projectPath": "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/Task_Manager.csproj",
-      "packagesPath": "/Users/danielwilliams/.nuget/packages/",
-      "outputPath": "/Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/obj/",
+      "projectPath": "C:\\cygwin64\\home\\danie\\FSU_CS\\CIS4930\\Assignment_1\\Task_Manager\\Task_Manager\\Task_Manager.csproj",
+      "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
+      "outputPath": "C:\\cygwin64\\home\\danie\\FSU_CS\\CIS4930\\Assignment_1\\Task_Manager\\Task_Manager\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "/Users/danielwilliams/.config/NuGet/NuGet.Config"
+        "C:\\Users\\danie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -58,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.400/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

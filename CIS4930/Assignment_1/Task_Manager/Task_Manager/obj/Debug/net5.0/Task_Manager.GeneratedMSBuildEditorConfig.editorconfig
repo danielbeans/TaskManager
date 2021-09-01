@@ -6,5 +6,3 @@ build_property.ProjectTypeGuids =
 build_property.PublishSingleFile = 
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
-build_property.RootNamespace = Task_Manager
-build_property.ProjectDir = /Users/danielwilliams/Desktop/Programming/FSU_CS/CIS4930/Assignment_1/Task_Manager/Task_Manager/

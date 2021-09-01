@@ -8,7 +8,7 @@ namespace Task_Manager
     {
         static void Main(string[] args)
         {
-
+            TaskList Tasks = new TaskList();
             bool endApp = false;
             int menuSelection;
 
@@ -26,7 +26,8 @@ namespace Task_Manager
                     case 1:
                         drawConsole(1);
                         Task tempTask = createTask();
-                        //Tasks.Add(tempTask.deadline, tempTask);
+                        Tasks.addTask(tempTask);
+                        pauseUntilKeystroke();
                         break;
                     case 2:
                         drawConsole(2);
@@ -41,9 +42,8 @@ namespace Task_Manager
                         drawConsole(5);
                         break;
                     case 6:
-                        Task devTask = new Task();
                         drawConsole(6);
-                        devTask.Print();
+                        printAllTasks(ref Tasks);
                         pauseUntilKeystroke();
                         break;
                     case 0:
@@ -69,9 +69,9 @@ namespace Task_Manager
                 {
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                     Console.Write(new string(' ', Console.WindowWidth));
-                    Console.SetCursorPosition(0, Console.CursorTop - 1);
-                    Console.Write("Deadline Date (mm/hh/yyyy min:hr am/pm): !Incorrect format!");
-                    Console.SetCursorPosition(Console.CursorLeft - 18, Console.CursorTop);
+                    Console.SetCursorPosition(0, Console.CursorTop);
+                    Console.Write("Deadline Date (mm/hh/yyyy min:hr am/pm): !Wrong format!");
+                    Console.SetCursorPosition(Console.CursorLeft - 14, Console.CursorTop);
                 }
 
                 return new Task(name, description, deadline);
@@ -111,8 +111,26 @@ namespace Task_Manager
                 }
             }
 
-            void printTasks(ref TaskList tasks)
+            void printAllTasks(ref TaskList tasks)
             {
+                if (tasks.isEmpty)
+                {
+                    Console.WriteLine("* You have no tasks *");
+                }
+                else if (!tasks.isEmpty)
+                {
+                    tasks.printTasks(0, true);
+                    /*
+                    Console.WriteLine("* Incomplete *");
+                    tasks.printTasks(0);
+                    
+                    if (!tasks.isEmpty)
+                    {
+                        Console.WriteLine("\n* Completed *");
+                        tasks.printTasks(1);
+                    }
+                    */
+                }
             }
 
             void printMenu()
@@ -132,7 +150,7 @@ namespace Task_Manager
 
             void pauseUntilKeystroke()
             {
-                Console.WriteLine("Press ENTER to return");
+                Console.WriteLine("\nPress ENTER to return");
                 var tempKey = Console.ReadLine();
             }
         }
@@ -172,8 +190,63 @@ namespace Task_Manager
 
         class TaskList
         {
-            public SortedDictionary<double, Task> list;
+            public SortedDictionary<double, Task> list = new SortedDictionary<double, Task>();
+            public string listName;
+            public bool isEmpty;
 
+            public TaskList(string name = "untitled list")
+            {
+                listName = name;
+                isEmpty = true;
+            }
+
+            public bool addTask(Task task)
+            {
+                try
+                {
+                    list.Add(task.taskID, task);
+                }
+                catch (ArgumentException)
+                {
+                    return false;
+                }
+
+                isEmpty = false;
+                return true;
+            }
+
+            public bool removeTask(double taskID)
+            {
+                return list.Remove(taskID);
+            }
+
+            // taskType: Incomplete = 0, Complete = 1
+            public void printTasks(int taskType, bool showAll = false)
+            {
+                Console.WriteLine(new string('-', Console.WindowWidth));
+                foreach ( KeyValuePair<double, Task> kvp in list)
+                {
+                    if (showAll)
+                    {
+                        kvp.Value.Print();
+                        Console.WriteLine(new string('-', Console.WindowWidth));
+                    }
+                    else if(!showAll)
+                    {
+                        switch (taskType)
+                        {
+                            case 0:
+                                if (!kvp.Value.isCompleted)
+                                    kvp.Value.Print();
+                                break;
+                            case 1:
+                                if (kvp.Value.isCompleted)
+                                    kvp.Value.Print();
+                                break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
