@@ -31,6 +31,8 @@ namespace Task_Manager
                         break;
                     case 2:
                         drawConsole(2);
+                        deleteTask(ref Tasks);
+                        pauseUntilKeystroke();
                         break;
                     case 3:
                         drawConsole(3);
@@ -40,6 +42,8 @@ namespace Task_Manager
                         break;
                     case 5:
                         drawConsole(5);
+                        printIncompleteTasks(ref Tasks);
+                        pauseUntilKeystroke();
                         break;
                     case 6:
                         drawConsole(6);
@@ -77,6 +81,25 @@ namespace Task_Manager
                 return new Task(name, description, deadline);
             }
 
+            void deleteTask(ref TaskList tasks)
+            {
+                printAllShortTasks(ref tasks);
+
+                Console.Write("\nChoose task to delete > ");
+
+                if (int.TryParse(Console.ReadLine(), out int taskNum)) 
+                {
+                    if (tasks.removeTask(taskNum))
+                        Console.WriteLine("\n- Task Deleted -");
+                    else
+                        Console.WriteLine("\n- Unable to delete task -");
+                }   
+                else
+                {
+                    Console.WriteLine("\n- Unable to delete task -");
+                }
+
+            }
 
             void drawConsole(int selection = 0)
             {
@@ -86,22 +109,22 @@ namespace Task_Manager
                 switch (selection)
                 {
                     case 1:
-                        Console.WriteLine("* Create a new task *\n");
+                        Console.WriteLine("** Create a new task **\n");
                         break;
                     case 2:
-                        Console.WriteLine("* Create a delete task *\n");
+                        Console.WriteLine("** Delete a task **");
                         break;
                     case 3:
-                        Console.WriteLine("* Select a task to edit *\n");
+                        Console.WriteLine("** Select a task to edit **");
                         break;
                     case 4:
-                        Console.WriteLine("* Select a task to complete *\n");
+                        Console.WriteLine("** Select a task to complete **");
                         break;
                     case 5:
-                        Console.WriteLine("** Incomplete tasks **\n");
+                        Console.WriteLine("** Incomplete tasks **");
                         break;
                     case 6:
-                        Console.WriteLine("** Tasks **\n");
+                        Console.WriteLine("** Tasks **");
                         break;
 
                     default:
@@ -113,24 +136,27 @@ namespace Task_Manager
 
             void printAllTasks(ref TaskList tasks)
             {
-                if (tasks.isEmpty)
-                {
-                    Console.WriteLine("* You have no tasks *");
-                }
-                else if (!tasks.isEmpty)
-                {
-                    tasks.printTasks(0, true);
-                    /*
-                    Console.WriteLine("* Incomplete *");
-                    tasks.printTasks(0);
+                tasks.printTasks(showAll: true);
+                /*
+                Console.WriteLine("* Incomplete *");
+                tasks.printTasks(0);
                     
-                    if (!tasks.isEmpty)
-                    {
-                        Console.WriteLine("\n* Completed *");
-                        tasks.printTasks(1);
-                    }
-                    */
+                if (!tasks.isEmpty)
+                {
+                    Console.WriteLine("\n* Completed *");
+                    tasks.printTasks(1);
                 }
+                */
+            }
+
+            void printAllShortTasks(ref TaskList tasks)
+            {
+                tasks.printTasks(shorten: true, lines: false);
+            }
+
+            void printIncompleteTasks(ref TaskList tasks)
+            {
+                tasks.printTasks(taskType: 0);
             }
 
             void printMenu()
@@ -186,6 +212,11 @@ namespace Task_Manager
                 Console.WriteLine(description + '\n');
                 Console.WriteLine("[" + (isCompleted ? 'x' : ' ') + "] Completed");
             }
+
+            public void shortPrint()
+            {
+                Console.WriteLine(name + " - Deadline: " + deadline);
+            }
         }
 
         class TaskList
@@ -215,35 +246,78 @@ namespace Task_Manager
                 return true;
             }
 
-            public bool removeTask(double taskID)
+            public bool removeTask(int taskNum = 1)
             {
-                return list.Remove(taskID);
+                int count = 1;
+
+                foreach(KeyValuePair<double, Task> kvp in list)
+                {
+                    if (count == taskNum)
+                        if (!list.Remove(kvp.Key))
+                            return false;
+                        else
+                            return true;
+
+                    count++;
+                }
+
+                return false;
             }
 
             // taskType: Incomplete = 0, Complete = 1
-            public void printTasks(int taskType, bool showAll = false)
+            public void printTasks(int taskType = 0, bool showAll = false, bool shorten = false, bool lines = true)
             {
-                Console.WriteLine(new string('-', Console.WindowWidth));
-                foreach ( KeyValuePair<double, Task> kvp in list)
+                int count = 1;
+
+                if (list.Count == 0)
+                    Console.WriteLine("\n* You have no tasks *");
+                else
                 {
-                    if (showAll)
+                    if (shorten == true)
+                        Console.Write('\n');
+
+                    foreach (KeyValuePair<double, Task> kvp in list)
                     {
-                        kvp.Value.Print();
-                        Console.WriteLine(new string('-', Console.WindowWidth));
-                    }
-                    else if(!showAll)
-                    {
-                        switch (taskType)
+                        if (lines)
+                            Console.WriteLine(new string('-', Console.WindowWidth));
+
+                        if (showAll)
                         {
-                            case 0:
-                                if (!kvp.Value.isCompleted)
-                                    kvp.Value.Print();
-                                break;
-                            case 1:
-                                if (kvp.Value.isCompleted)
-                                    kvp.Value.Print();
-                                break;
+                            if (!shorten)
+                                kvp.Value.Print();
+                            else if (shorten)
+                            {
+                                Console.Write(count + ") ");
+                                kvp.Value.shortPrint();
+                            }
                         }
+                        else if (!showAll)
+                        {
+                            switch (taskType)
+                            {
+                                case 0:
+                                    if (!kvp.Value.isCompleted)
+                                        if (!shorten)
+                                            kvp.Value.Print();
+                                        else if (shorten)
+                                        {
+                                            Console.Write(count + ") ");
+                                            kvp.Value.shortPrint();
+                                        }
+                                    break;
+                                case 1:
+                                    if (kvp.Value.isCompleted)
+                                        if (!shorten)
+                                            kvp.Value.Print();
+                                        else if (shorten)
+                                        {
+                                            Console.Write(count + ") ");
+                                            kvp.Value.shortPrint();
+                                        }
+                                    break;
+                            }
+                        }
+                        count++;
                     }
                 }
             }
