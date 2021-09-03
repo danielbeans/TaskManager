@@ -39,6 +39,8 @@ namespace Task_Manager
                         break;
                     case 4:
                         drawConsole(4);
+                        completeTask(ref Tasks);
+                        pauseUntilKeystroke();
                         break;
                     case 5:
                         drawConsole(5);
@@ -101,6 +103,25 @@ namespace Task_Manager
 
             }
 
+            void completeTask(ref TaskList tasks)
+            {
+                printIncompleteShortTasks(ref tasks);
+
+                Console.Write("\nChoose task to complete > ");
+
+                if (int.TryParse(Console.ReadLine(), out int taskNum))
+                {
+                    if (tasks.completeTask(taskNum))
+                        Console.WriteLine("\n- Task Completed -");
+                    else
+                        Console.WriteLine("\n- Unable to complete task -");
+                }
+                else
+                {
+                    Console.WriteLine("\n- Unable to complete task -");
+                }
+            }
+
             void drawConsole(int selection = 0)
             {
                 Console.Clear();
@@ -149,9 +170,14 @@ namespace Task_Manager
                 */
             }
 
-            void printAllShortTasks(ref TaskList tasks)
+            void printIncompleteShortTasks(ref TaskList tasks)
             {
                 tasks.printTasks(shorten: true, lines: false);
+            }
+
+            void printAllShortTasks(ref TaskList tasks)
+            {
+                tasks.printTasks(showAll: true, shorten: true, lines: false);
             }
 
             void printIncompleteTasks(ref TaskList tasks)
@@ -264,6 +290,24 @@ namespace Task_Manager
                 return false;
             }
 
+            public bool completeTask(int taskNum)
+            {
+                int count = 1;
+
+                foreach (KeyValuePair<double, Task> kvp in list)
+                {
+                    if (count == taskNum)
+                    {
+                        kvp.Value.isCompleted = true;
+                        return true;
+                    }
+
+                    count++;
+                }
+
+                return false;
+            }
+
             // taskType: Incomplete = 0, Complete = 1
             public void printTasks(int taskType = 0, bool showAll = false, bool shorten = false, bool lines = true)
             {
@@ -278,11 +322,11 @@ namespace Task_Manager
 
                     foreach (KeyValuePair<double, Task> kvp in list)
                     {
-                        if (lines)
-                            Console.WriteLine(new string('-', Console.WindowWidth));
-
                         if (showAll)
                         {
+                            if (lines)
+                                Console.WriteLine(new string('-', Console.WindowWidth));
+
                             if (!shorten)
                                 kvp.Value.Print();
                             else if (shorten)
@@ -297,6 +341,10 @@ namespace Task_Manager
                             {
                                 case 0:
                                     if (!kvp.Value.isCompleted)
+                                    {
+                                        if (lines)
+                                            Console.WriteLine(new string('-', Console.WindowWidth));
+
                                         if (!shorten)
                                             kvp.Value.Print();
                                         else if (shorten)
@@ -304,9 +352,14 @@ namespace Task_Manager
                                             Console.Write(count + ") ");
                                             kvp.Value.shortPrint();
                                         }
+                                    }
                                     break;
                                 case 1:
                                     if (kvp.Value.isCompleted)
+                                    {
+                                        if (lines)
+                                            Console.WriteLine(new string('-', Console.WindowWidth));
+
                                         if (!shorten)
                                             kvp.Value.Print();
                                         else if (shorten)
@@ -314,6 +367,8 @@ namespace Task_Manager
                                             Console.Write(count + ") ");
                                             kvp.Value.shortPrint();
                                         }
+                                    }
+
                                     break;
                             }
                         }
