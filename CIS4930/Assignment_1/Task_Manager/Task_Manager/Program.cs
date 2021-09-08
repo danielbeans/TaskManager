@@ -209,11 +209,11 @@ namespace Task_Manager
 
         class Task
         {
-            public string name;
-            public string description;
-            public DateTime deadline;
-            public bool isCompleted;
-            public double taskID; 
+            public string name { get; set; }
+            public string description { get; set; }
+            public DateTime deadline { get; set; }
+            public bool isCompleted { get; set; }
+            public double taskID { get; set; }
 
             public Task()
             {
@@ -274,23 +274,26 @@ namespace Task_Manager
 
             public bool removeTask(int taskNum = 1)
             {
-                int count = 1;
+                double taskID = findTaskID(taskNum);
+                if (taskID == -1)
+                    return false;
+                else if(!list.Remove(taskID))
+                    return false;
 
-                foreach(KeyValuePair<double, Task> kvp in list)
-                {
-                    if (count == taskNum)
-                        if (!list.Remove(kvp.Key))
-                            return false;
-                        else
-                            return true;
-
-                    count++;
-                }
-
-                return false;
+                return true;
             }
 
             public bool completeTask(int taskNum)
+            {
+                double taskID = findTaskID(taskNum);
+                if (taskID == -1)
+                    return false;
+
+                list[taskID].isCompleted = true;
+                return true;
+            }
+
+            private double findTaskID(int taskNum)
             {
                 int count = 1;
 
@@ -298,14 +301,13 @@ namespace Task_Manager
                 {
                     if (count == taskNum)
                     {
-                        kvp.Value.isCompleted = true;
-                        return true;
+                        return kvp.Key;
                     }
 
                     count++;
                 }
 
-                return false;
+                return -1;
             }
 
             // taskType: Incomplete = 0, Complete = 1
