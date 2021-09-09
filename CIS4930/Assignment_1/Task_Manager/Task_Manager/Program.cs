@@ -36,6 +36,8 @@ namespace Task_Manager
                         break;
                     case 3:
                         drawConsole(3);
+                        editTask(ref Tasks);
+                        pauseUntilKeystroke();
                         break;
                     case 4:
                         drawConsole(4);
@@ -81,6 +83,43 @@ namespace Task_Manager
                 }
 
                 return new Task(name, description, deadline);
+            }
+
+            void editTask(ref TaskList tasks)
+            {
+                printAllShortTasks(ref tasks);
+
+                Console.Write("\nChoose task to edit > ");
+
+                if (int.TryParse(Console.ReadLine(), out int taskNum))
+                {
+                    string tempName = null;
+                    string tempDescription = null;
+                    DateTime? tempDateTime = null;
+
+                    tasks.printTask(taskNum);
+                    Console.WriteLine("\nEdit task (press ENTER to skip):");
+                    Console.Write("Name: ");
+                    tempName = Console.ReadLine();
+                    Console.Write("Description: ");
+                    tempDescription = Console.ReadLine();
+                    Console.Write("Deadline: ");
+                    if (DateTime.TryParse(Console.ReadLine(), out DateTime deadline))
+                        tempDateTime = deadline;
+
+                    if (string.IsNullOrEmpty(tempName))
+                        tempName = null;
+
+                    if (string.IsNullOrEmpty(tempDescription))
+                        tempDescription = null;
+
+                    if (tasks.editTask(taskNum, tempName, tempDescription, tempDateTime))
+                        Console.WriteLine("\n- Task Edited -");
+                    else
+                        Console.WriteLine("\n- Unable to edit task -");
+                }
+                else
+                    Console.WriteLine("\n- Unable to edit task -");
             }
 
             void deleteTask(ref TaskList tasks)
@@ -283,6 +322,22 @@ namespace Task_Manager
                 return true;
             }
 
+            public bool editTask(int taskNum, string nameEdit = null, string descriptionEdit = null, DateTime? deadlineEdit = null)
+            {
+                double taskID = findTaskID(taskNum);
+                if (taskID == -1)
+                    return false;
+
+                if (nameEdit is not null)
+                    list[taskID].name = nameEdit;
+                if (descriptionEdit is not null)
+                    list[taskID].description = descriptionEdit;
+                if (deadlineEdit is not null)
+                    list[taskID].deadline = (DateTime)deadlineEdit;
+
+                return true;
+            }
+
             public bool completeTask(int taskNum)
             {
                 double taskID = findTaskID(taskNum);
@@ -290,6 +345,15 @@ namespace Task_Manager
                     return false;
 
                 list[taskID].isCompleted = true;
+                return true;
+            }
+            public bool printTask(int taskNum)
+            {
+                double taskID = findTaskID(taskNum);
+                if (taskID == -1)
+                    return false;
+
+                list[taskID].Print();
                 return true;
             }
 
