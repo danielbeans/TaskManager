@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Written by Daniel Williams
+
+using System;
 using System.Globalization;
 using System.Collections.Generic;
 
