@@ -99,6 +99,7 @@ namespace Task_Manager
                         break;
                     case 6:
                         DrawConsole(6);
+                        Search(new Tuple<List<Task>, List<Appointment>>(taskList, appList));
                         PauseUntilKeystroke();
                         break;
                     case 0:
@@ -144,7 +145,6 @@ namespace Task_Manager
                 SaveToFile(appointments, "appointments.json");
             }
            
-
             Item CreateItem()
             {
                 Console.Write("Name: ");
@@ -295,41 +295,6 @@ namespace Task_Manager
                 }
             }
             
-            void completeTask(List<Task> tasks)
-            {
-                Console.Clear();
-                DrawConsole(3);
-                PrintTasks(tasks);
-
-                Console.Write("\nChoose task to complete > ");
-
-                if (int.TryParse(Console.ReadLine(), out int taskNum) && taskNum <= tasks.Count && taskNum > 0)
-                {
-                    taskNum--;
-                    Console.Clear();
-                    DrawConsole(3);
-
-                    tasks[taskNum].IsCompleted = true;
-                    Console.WriteLine("* Task Completed *");
-                }
-            }
-            
-
-            void PrintAllItems(List<Task> tasks, List<Appointment> apps)
-            {
-                Console.Clear();
-                DrawConsole(5);
-
-                if (tasks.Count != 0 && apps.Count != 0)
-                {
-                    int count = 1;
-                    PrintTasks(tasks);
-                    PrintAppointments(apps);
-                }
-                else
-                    Console.WriteLine("* No Tasks or Appointments *");
-            }
-
             void PrintTasks(List<Task> tasks)
             {
                 int count = 1;
@@ -402,6 +367,40 @@ namespace Task_Manager
                     Console.WriteLine("No Tasks");
             }
 
+            void PrintAllItems(List<Task> tasks, List<Appointment> apps)
+            {
+                Console.Clear();
+                DrawConsole(5);
+
+                if (tasks.Count != 0 || apps.Count != 0)
+                {
+                    int count = 1;
+                    PrintTasks(tasks);
+                    PrintAppointments(apps);
+                }
+                else
+                    Console.WriteLine("* No Tasks or Appointments *");
+            }
+
+            void completeTask(List<Task> tasks)
+            {
+                Console.Clear();
+                DrawConsole(3);
+                PrintTasks(tasks);
+
+                Console.Write("\nChoose task to complete > ");
+
+                if (int.TryParse(Console.ReadLine(), out int taskNum) && taskNum <= tasks.Count && taskNum > 0)
+                {
+                    taskNum--;
+                    Console.Clear();
+                    DrawConsole(3);
+
+                    tasks[taskNum].IsCompleted = true;
+                    Console.WriteLine("* Task Completed *");
+                }
+            }
+
             void DrawConsole(int selection = 0)
             {
                 Console.Clear();
@@ -467,6 +466,30 @@ namespace Task_Manager
             {
                 JsonSerializerOptions options = new() { WriteIndented = true };
                 File.WriteAllText(fileName, JsonSerializer.Serialize<List<T>>(items, options));
+            }
+
+            void Search(Tuple<List<Task>, List<Appointment>> items)
+            {
+                Console.Clear();
+                DrawConsole(6);
+
+                Console.Write("Type string to search > ");
+                string query = Console.ReadLine();
+
+                var selectTasks = from task in items.Item1
+                                  where task.Name.Contains(query) || task.Description.Contains(query)
+                                  select task;
+
+                var selectAppoinments = from appointment in items.Item2
+                                        where appointment.Name.Contains(query) || appointment.Description.Contains(query) || appointment.Attendees.Contains(query)
+                                        select appointment;
+
+                Console.WriteLine();
+                List<Task> taskList = selectTasks.ToList();
+                List<Appointment> appList= selectAppoinments.ToList();
+
+                PrintTasks(taskList);
+                PrintAppointments(appList);
             }
 
             // Quality of life functions
