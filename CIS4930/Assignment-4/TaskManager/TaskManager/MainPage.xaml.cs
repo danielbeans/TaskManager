@@ -48,9 +48,13 @@ namespace TaskManager
         private async void Edit_Click(object sender, RoutedEventArgs e)
         {
             var dataContext = DataContext as MainViewModel;
-            var itemDialog = new ItemDialog(dataContext.SelectedItem, dataContext.Items);
-            await itemDialog.ShowAsync();
-            (DataContext as MainViewModel).RefreshList();
+
+            if(dataContext.SelectedItem != null)
+            {
+                var itemDialog = new ItemDialog(dataContext.SelectedItem, dataContext.Items);
+                await itemDialog.ShowAsync();
+                (DataContext as MainViewModel).RefreshList();
+            }
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
@@ -59,29 +63,37 @@ namespace TaskManager
             (DataContext as MainViewModel).RefreshList();
         }
 
-        private void Search(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void SearchBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            var dataContext = DataContext as MainViewModel;
-            dataContext.Query = args.QueryText;
-            dataContext.RefreshList();
-        }
+            TextBox textBox = sender as TextBox;
 
-        //private void Search_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        //{
-        //    if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-        //    {
-        //        sender.ItemsSource = (DataContext as MainViewModel).FilteredItems;
-        //    }
-        //}
+            if (textBox != null)
+            {
+                var dataContext = DataContext as MainViewModel;
+                dataContext.Query = textBox.Text;
+                dataContext.RefreshList();
+            }
+        }
 
         private void Save(object sender, RoutedEventArgs e)
         {
             (DataContext as MainViewModel).SaveState();
         }
 
-        private void Sort(object sender, RoutedEventArgs e)
+        private void SortMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainViewModel).Sort();
+            var option = ((MenuFlyoutItem)sender).Tag.ToString();
+
+            switch (option)
+            {
+                case "priority":
+                    (DataContext as MainViewModel).SortByPriority();
+                    break;
+                default:
+                    (DataContext as MainViewModel).SortOff();
+                    break;
+            }
+
         }
     }
 }

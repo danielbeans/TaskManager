@@ -29,7 +29,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Tasks &amp; Appointments" Foreground="#FF315969" FontSize="25" FontWeight="Bold" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-            <AutoSuggestBox Grid.Column="2" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" PlaceholderText="Search" QueryIcon="Find" QuerySubmitted="Search"/>
+            <TextBox Grid.Column="2" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" PlaceholderText="Search" TextChanged="SearchBox_TextChanged"/>
         </Grid>
         <ListBox Grid.Row="1" Grid.ColumnSpan="5" SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" ItemsSource="{Binding Path=FilteredItems, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
             <ListBox.ItemTemplate>
@@ -66,8 +66,14 @@
             <Button Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,5,0" Click="Add_Click"/>
             <Button Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE70F;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Click="Edit_Click"/>
             <Button Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE74D;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Click="Remove_Click"/>
-            <Button Grid.Column="7" FontFamily="Segoe MDL2 Assets" Content="&#xE74E;" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Click="Save"/>
-            <Button Grid.Column="8" Content="Sort by Priority" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0" Click="Sort"/>
+            <DropDownButton Grid.Column="8" Content="Sort" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0">
+                <DropDownButton.Flyout>
+                    <MenuFlyout Placement="Top">
+                        <MenuFlyoutItem Text="Priority" Tag="priority" Click="SortMenuFlyoutItem_Click"/>
+                        <MenuFlyoutItem Text="None" Tag="none" Click="SortMenuFlyoutItem_Click"/>
+                    </MenuFlyout>
+                </DropDownButton.Flyout>
+            </DropDownButton>
             <DropDownButton Grid.Column="9" Content="Filter by" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,0,0,0"/>
         </Grid>
     </Grid>

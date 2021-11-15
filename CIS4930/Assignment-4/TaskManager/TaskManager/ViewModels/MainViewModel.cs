@@ -58,14 +58,17 @@ namespace TaskManager.ViewModels
         {
             if (SelectedItem == null || (SelectedItem as Models.Task) == null)
             {
+                RefreshList();
                 return;
             }
             (SelectedItem as Models.Task).IsCompleted = !(SelectedItem as Models.Task).IsCompleted;
+            RefreshList();
         }
 
         public void RefreshList()
         {
             OnPropertyChanged("FilteredItems");
+            SaveState();
         }
 
         public string Query { get; set; }
@@ -74,9 +77,15 @@ namespace TaskManager.ViewModels
         {
             File.WriteAllText(PersistencePath, JsonConvert.SerializeObject(this, Settings));
         }
-        public void Sort()
+        public void SortByPriority()
         {
-            sortByPriority = !sortByPriority;
+            sortByPriority = true;
+            RefreshList();
+        }
+
+        public void SortOff()
+        {
+            sortByPriority = false;
             RefreshList();
         }
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")

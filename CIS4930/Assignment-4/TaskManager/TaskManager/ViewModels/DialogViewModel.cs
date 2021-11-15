@@ -58,20 +58,30 @@ namespace TaskManager.ViewModels
         {
             get
             {
-                if(BoundTask.Priority == 1 || BoundAppointment.Priority == 1)
+                if (IsTask)
                 {
-                    return "Low";
+                    switch (BoundTask.Priority)
+                    {
+                        case 1:
+                            return "Low";
+                        case 2:
+                            return "Medium";
+                        case 3:
+                            return "High";
+                    }
                 }
-                else if (BoundTask.Priority == 2 || BoundAppointment.Priority == 2)
+                else
                 {
-                    return "Medium";
+                    switch (BoundAppointment.Priority)
+                    {
+                        case 1:
+                            return "Low";
+                        case 2:
+                            return "Medium";
+                        case 3:
+                            return "High";
+                    }
                 }
-                else if (BoundTask.Priority == 3 || BoundAppointment.Priority == 3)
-                {
-                    return "High";
-                }
-
-                Debug.WriteLine("help");
                 return "Low";
             }
             set
