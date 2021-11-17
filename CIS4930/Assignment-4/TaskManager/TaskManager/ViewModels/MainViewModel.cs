@@ -21,30 +21,30 @@ namespace TaskManager.ViewModels
         private bool sortByPriority;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public ObservableCollection<Item> Items { get; set; }
-        public ObservableCollection<Item> FilteredItems
+        public ObservableCollection<ItemViewModel> Items { get; set; }
+        public ObservableCollection<ItemViewModel> FilteredItems
         {
             get
             {
                 if (string.IsNullOrEmpty(Query))
                 {
                     return sortByPriority
-                        ? new ObservableCollection<Item>(Items.OrderByDescending(t => t.Priority))
-                        : new ObservableCollection<Item>(Items.OrderBy(t => t.Name));
+                        ? new ObservableCollection<ItemViewModel>(Items.OrderByDescending(t => t.Item.Priority))
+                        : new ObservableCollection<ItemViewModel>(Items.OrderBy(t => t.Item.Name));
                 }
 
-                return new ObservableCollection<Item>(Items.Where(t => t.Name.ToUpper().Contains(Query.ToUpper())
-                                                    || t.Description.ToUpper().Contains(Query.ToUpper())
-                                                    || ((t is Appointment) && (t as Appointment).Attendees.Any(s => s.Contains(Query)))
-                                                        ).OrderBy(t => t.Priority));
+                return new ObservableCollection<ItemViewModel>(Items.Where(t => t.Item.Name.ToUpper().Contains(Query.ToUpper())
+                                                    || t.Item.Description.ToUpper().Contains(Query.ToUpper())
+                                                    || ((t.Item is Appointment) && (t.Item as Appointment).Attendees.Any(s => s.Contains(Query)))
+                                                        ).OrderBy(t => t.Item.Priority));
             }
         }
         public MainViewModel()
         {
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<ItemViewModel>();
         }
 
-        public Item SelectedItem { get; set; }
+        public ItemViewModel SelectedItem { get; set; }
 
         public void RemoveItem()
         {
@@ -56,12 +56,12 @@ namespace TaskManager.ViewModels
 
         public void ToggleCompleteness()
         {
-            if (SelectedItem == null || (SelectedItem as Models.Task) == null)
+            if (SelectedItem == null || (SelectedItem.Item as Models.Task) == null)
             {
                 RefreshList();
                 return;
             }
-            (SelectedItem as Models.Task).IsCompleted = !(SelectedItem as Models.Task).IsCompleted;
+            (SelectedItem.Item as Models.Task).IsCompleted = !(SelectedItem.Item as Models.Task).IsCompleted;
             RefreshList();
         }
 

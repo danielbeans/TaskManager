@@ -16,9 +16,9 @@ namespace TaskManager.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private IList<Item> _items;
-        public Models.Task BoundTask { get; set; }
-        public Appointment BoundAppointment { get; set; }
+        private IList<ItemViewModel> _items;
+        public TaskViewModel BoundTask { get; set; }
+        public AppointmentViewModel BoundAppointment { get; set; }
 
         private bool isTask;
         public bool IsTask
@@ -32,16 +32,16 @@ namespace TaskManager.ViewModels
             {
                 isTask = value;
 
-                if ((BoundTask == null || BoundTask.Id <= 0) && (BoundAppointment == null || BoundAppointment.Id <= 0))
+                if ((BoundTask == null || BoundTask.Item.Id <= 0) && (BoundAppointment == null || BoundAppointment.Item.Id <= 0))
                 {
                     if (isTask)
                     {
-                        BoundTask = new Models.Task();
+                        BoundTask = new TaskViewModel();
                         BoundAppointment = null;
                     }
                     else
                     {
-                        BoundAppointment = new Appointment();
+                        BoundAppointment = new AppointmentViewModel();
                         BoundTask = null;
                     }
                 }
@@ -60,7 +60,7 @@ namespace TaskManager.ViewModels
             {
                 if (IsTask)
                 {
-                    switch (BoundTask.Priority)
+                    switch (BoundTask.Item.Priority)
                     {
                         case 1:
                             return "Low";
@@ -72,7 +72,7 @@ namespace TaskManager.ViewModels
                 }
                 else
                 {
-                    switch (BoundAppointment.Priority)
+                    switch (BoundAppointment.Item.Priority)
                     {
                         case 1:
                             return "Low";
@@ -92,21 +92,21 @@ namespace TaskManager.ViewModels
                 {
                     case "Low":
                         if (isTask)
-                            BoundTask.Priority = 1;
+                            BoundTask.Item.Priority = 1;
                         else
-                            BoundAppointment.Priority = 1;
+                            BoundAppointment.Item.Priority = 1;
                         break;
                     case "Medium":
                         if (isTask)
-                            BoundTask.Priority = 2;
+                            BoundTask.Item.Priority = 2;
                         else
-                            BoundAppointment.Priority = 2;
+                            BoundAppointment.Item.Priority = 2;
                         break;
                     case "High":
                         if (isTask)
-                            BoundTask.Priority = 3;
+                            BoundTask.Item.Priority = 3;
                         else
-                            BoundAppointment.Priority = 3;
+                            BoundAppointment.Item.Priority = 3;
                         break;
                 }
 
@@ -118,19 +118,19 @@ namespace TaskManager.ViewModels
         public Visibility IsTaskVisible { get => IsTask ? Visibility.Visible : Visibility.Collapsed; }
         public Visibility IsAppointmentVisible { get => IsTask ? Visibility.Collapsed : Visibility.Visible; }
 
-        public DialogViewModel(Item item)
+        public DialogViewModel(ItemViewModel item)
         {
-            if (item is Appointment)
+            if (item is AppointmentViewModel)
             {
-                BoundAppointment = item as Appointment;
+                BoundAppointment = item as AppointmentViewModel;
                 BoundTask = null;
                 IsTask = false;
 
                 OnPropertyChanged("BoundAppointment");
             }
-            else if (item is Models.Task)
+            else if (item is TaskViewModel)
             {
-                BoundTask = item as Models.Task;
+                BoundTask = item as TaskViewModel;
                 BoundAppointment = null;
                 IsTask = true;
 

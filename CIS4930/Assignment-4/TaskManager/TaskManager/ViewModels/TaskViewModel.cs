@@ -12,14 +12,14 @@ namespace TaskManager.ViewModels
     {
         public override Visibility IsCompleteable => Visibility.Visible;
 
-        public TaskViewModel(Task task)
+        public TaskViewModel(Models.Task task)
         {
-            //Item = task;
+            Item = task;
         }
 
         public TaskViewModel()
         {
-            //Item = new task();
+            Item = new Models.Task();
         }
     }
 }

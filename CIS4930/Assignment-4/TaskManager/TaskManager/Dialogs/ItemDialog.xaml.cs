@@ -22,15 +22,15 @@ namespace TaskManager.Dialogs
 {
     public sealed partial class ItemDialog : ContentDialog
     {
-        private IList<Item> _items;
-        public ItemDialog(IList<Item> Items)
+        private IList<ItemViewModel> _items;
+        public ItemDialog(IList<ItemViewModel> Items)
         {
             this.InitializeComponent();
             DataContext = new DialogViewModel(null);
             _items = Items;
         }
 
-        public ItemDialog(Item selectedItem, IList<Item> Items)
+        public ItemDialog(ItemViewModel selectedItem, IList<ItemViewModel> Items)
         {
             this.InitializeComponent();
             DataContext = new DialogViewModel(selectedItem);
@@ -43,19 +43,21 @@ namespace TaskManager.Dialogs
             if (context.BoundTask != null)
             {
                 var task = context.BoundTask;
-                if (task.Id <= 0)
+                if (task.Item.Id <= 0)
                 {
+                    task.Item.Id = Item.s_currentID;
+                    Item.s_currentID++;
                     _items.Add(task);
-                    //Debug.WriteLine("Task");
                 }
             }
             else if (context.BoundAppointment != null)
             {
                 var appointment = context.BoundAppointment;
-                if (appointment.Id <= 0)
+                if (appointment.Item.Id <= 0)
                 {
+                    appointment.Item.Id = Item.s_currentID;
+                    Item.s_currentID++;
                     _items.Add(appointment);
-                    //Debug.WriteLine("Apointment");
                 }
             }
         }

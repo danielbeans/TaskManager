@@ -11,10 +11,10 @@ namespace TaskManager.Models
 {
     public class Item : INotifyPropertyChanged
     {
-        private static int s_currentID= 0;
+        public static int s_currentID = 1;
 
         private int id;
-        public int Id { get => id; set => id = s_currentID++; }
+        public int Id { get => id; set => id = value; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public virtual Visibility IsCompleteable { get; }
@@ -45,15 +45,13 @@ namespace TaskManager.Models
             }
         }
         public DateTime DateAdded { get; }
-        public int ItemID { get; }
 
         public int Priority { get; set; }
 
         public Item()
         {
             DateAdded = DateTime.Now;
-            ItemID = s_currentID;
-            s_currentID++;
+            Id = 0;
         }
 
         public Item(string name, string description) : this()
@@ -67,7 +65,7 @@ namespace TaskManager.Models
             Name = item.Name;
             Description = item.Description;
             DateAdded = item.DateAdded;
-            ItemID = item.ItemID;
+            Id = item.Id;
         }
 
         public virtual bool Completed { get; set; }

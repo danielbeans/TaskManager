@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 
 namespace TaskManager.ViewModels
 {
-    class ItemViewModel : INotifyPropertyChanged
+    public class ItemViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

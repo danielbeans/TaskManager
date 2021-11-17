@@ -43,9 +43,9 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0" Visibility="{Binding Path=IsCompleteable, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding Completed, Mode=TwoWay}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Display, UpdateSourceTrigger=PropertyChanged}" FontWeight="SemiBold" HorizontalAlignment="Stretch"/>
-                        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Priority, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ConvertPriority}}" FontWeight="Bold" HorizontalAlignment="Left" />
+                        <CheckBox Grid.Column="0" Visibility="{Binding Path=Item.IsCompleteable, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding Completed, Mode=TwoWay}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Item.Display, UpdateSourceTrigger=PropertyChanged}" FontWeight="SemiBold" HorizontalAlignment="Stretch"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Item.Priority, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ConvertPriority}}" FontWeight="Bold" HorizontalAlignment="Left" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
