@@ -19,27 +19,12 @@ namespace TaskManagerAPI.Controllers
         }
 
         [HttpPost("add")]
-        public string Add([FromBody] Models.Task task)
+        public bool Add([FromBody] Models.Task task)
         {
             try
             {
                 Database.Tasks.Add(task);
             } catch (Exception)
-            {
-                return "Could not add to database";
-            }
-
-            return "Successfully added task";
-        }
-
-        [HttpGet("Delete/{id}")]
-        public bool Delete(string id)
-        {
-            try
-            {
-                var appToDelete = Database.Tasks.FirstOrDefault(a => a.Id.ToString() == id);
-                Database.Tasks.Remove(appToDelete);
-            } catch(Exception)
             {
                 return false;
             }
@@ -47,6 +32,31 @@ namespace TaskManagerAPI.Controllers
             return true;
         }
 
+        [HttpPost("update")]
+        public bool Update([FromBody] Models.Task task)
+        {
+            if (!Database.UpdateTask(task))
+            { 
+                return false;
+            } 
 
+            return true;
+        }
+
+
+        [HttpGet("delete/{id}")]
+        public bool Delete(string id)
+        {
+            try
+            {
+                var taskToDelete = Database.Tasks.FirstOrDefault(a => a.Id.ToString() == id);
+                Database.Tasks.Remove(taskToDelete);
+            } catch(Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -17,5 +17,48 @@ namespace TaskManagerAPI.Controllers
         {
             return Database.Appointments;
         }
+
+        [HttpPost("add")]
+        public bool Add([FromBody] Appointment appointment)
+        {
+            try
+            {
+                Database.Appointments.Add(appointment);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        [HttpPost("update")]
+        public bool Update([FromBody] Appointment appointment)
+        {
+            if (!Database.UpdateAppointment(appointment))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        [HttpGet("delete/{id}")]
+        public bool Delete(string id)
+        {
+            try
+            {
+                var appToDelete = Database.Appointments.FirstOrDefault(a => a.Id.ToString() == id);
+                Database.Appointments.Remove(appToDelete);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
