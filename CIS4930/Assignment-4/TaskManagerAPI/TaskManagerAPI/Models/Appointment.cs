@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
-namespace TaskManager.Models
+namespace TaskManagerAPI.Models
 {
-    class Appointment: Item , INotifyPropertyChanged
+    public class Appointment: Item , INotifyPropertyChanged
     {
         public Appointment()
         {

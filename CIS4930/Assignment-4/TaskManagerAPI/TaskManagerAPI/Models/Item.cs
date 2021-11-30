@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace TaskManager.Models
+namespace TaskManagerAPI.Models
 {
     public class Item : INotifyPropertyChanged
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace TaskManager.Models
+namespace TaskManagerAPI.Models
 {
-    class Task: Item, INotifyPropertyChanged
+    public class Task: Item, INotifyPropertyChanged
     {
         public Task()
         {

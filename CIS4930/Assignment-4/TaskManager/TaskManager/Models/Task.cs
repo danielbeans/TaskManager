@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace TaskManager.Models
 {
-    class Task: Item, INotifyPropertyChanged
+    public class Task: Item, INotifyPropertyChanged
     {
         public Task()
         {

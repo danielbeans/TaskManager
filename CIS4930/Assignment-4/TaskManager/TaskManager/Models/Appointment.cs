@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TaskManager.Models
 {
-    class Appointment: Item , INotifyPropertyChanged
+    public class Appointment: Item , INotifyPropertyChanged
     {
         public Appointment()
         {
