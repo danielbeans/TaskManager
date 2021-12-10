@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TaskManager.Dialogs;
+using TaskManager.Models;
 using TaskManager.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -28,14 +29,16 @@ namespace TaskManager
         {
             this.InitializeComponent();
 
-            if(File.Exists(MainViewModel.PersistencePath))
-            {
-                DataContext = JsonConvert.DeserializeObject<MainViewModel>(File.ReadAllText(MainViewModel.PersistencePath), MainViewModel.Settings);
-            }
-            else
-            {
-                DataContext = new MainViewModel();
-            }
+            var mainViewModel = new MainViewModel();
+            var taskString = new WebRequestHandler().Get("http://localhost/TaskManagerAPI/task").Result;
+            var tasks = JsonConvert.DeserializeObject<List<Models.Task>>(taskString);
+            tasks.ForEach(t => mainViewModel.Items.Add(new TaskViewModel(t)));
+            var appointmentsString = new WebRequestHandler().Get("http://localhost/TaskManagerAPI/appointment").Result;
+            var appointments = JsonConvert.DeserializeObject<List<Appointment>>(appointmentsString);
+            appointments.ForEach(a => mainViewModel.Items.Add(new AppointmentViewModel(a)));
+
+            DataContext = mainViewModel;
+            (DataContext as MainViewModel).RefreshList();
         }
 
         private async void Add_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -37,7 +38,7 @@ namespace TaskManager.Dialogs
             _items = Items;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             var context = DataContext as DialogViewModel;
             if (context.BoundTask != null)
@@ -45,9 +46,14 @@ namespace TaskManager.Dialogs
                 var task = context.BoundTask;
                 if (task.Item.Id <= 0)
                 {
-                    task.Item.Id = Item.s_currentID;
-                    Item.s_currentID++;
-                    _items.Add(task);
+                    var newTaskString = await new WebRequestHandler().Post("http://localhost/TaskManagerAPI/task/add", task.Item);
+                    var newTask = JsonConvert.DeserializeObject<Task>(newTaskString);
+                    _items.Add(new TaskViewModel(newTask));
+                }
+                else
+                {
+                    var res = await new WebRequestHandler().Post("http://localhost/TaskManagerAPI/task/update", task.Item);
+                    Debug.WriteLine(res);
                 }
             }
             else if (context.BoundAppointment != null)
@@ -55,9 +61,14 @@ namespace TaskManager.Dialogs
                 var appointment = context.BoundAppointment;
                 if (appointment.Item.Id <= 0)
                 {
-                    appointment.Item.Id = Item.s_currentID;
-                    Item.s_currentID++;
+                    var newAppString = await new WebRequestHandler().Post("http://localhost/TaskManagerAPI/appointment/add", appointment.Item);
+                    var newApp = JsonConvert.DeserializeObject<Task>(newAppString);
                     _items.Add(appointment);
+                }
+                else
+                {
+                    var res = await new WebRequestHandler().Post("http://localhost/TaskManagerAPI/appointment/update", appointment.Item);
+                    Debug.WriteLine(res);
                 }
             }
         }

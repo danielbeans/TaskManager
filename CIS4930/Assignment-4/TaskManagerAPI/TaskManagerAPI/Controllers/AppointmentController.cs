@@ -19,18 +19,16 @@ namespace TaskManagerAPI.Controllers
         }
 
         [HttpPost("add")]
-        public bool Add([FromBody] Appointment appointment)
+        public Appointment Add([FromBody] Appointment appointment)
         {
             try
             {
-                Database.Appointments.Add(appointment);
+                return Database.AddAppointment(appointment);
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
-
-            return true;
         }
 
         [HttpPost("update")]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManagerAPI.Models;
@@ -19,17 +20,15 @@ namespace TaskManagerAPI.Controllers
         }
 
         [HttpPost("add")]
-        public bool Add([FromBody] Models.Task task)
+        public Models.Task Add([FromBody] Models.Task task)
         {
             try
             {
-                Database.Tasks.Add(task);
+                return Database.AddTask(task);
             } catch (Exception)
             {
-                return false;
+                return null;
             }
-
-            return true;
         }
 
         [HttpPost("update")]

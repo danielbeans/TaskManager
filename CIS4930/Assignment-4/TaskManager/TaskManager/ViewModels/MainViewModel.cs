@@ -46,11 +46,20 @@ namespace TaskManager.ViewModels
 
         public ItemViewModel SelectedItem { get; set; }
 
-        public void RemoveItem()
+        public async void RemoveItem()
         {
             if (SelectedItem != null)
             {
                 Items.Remove(SelectedItem);
+
+                if (SelectedItem is TaskViewModel)
+                {
+                    await new WebRequestHandler().Get($"http://localhost/TaskManagerAPI/task/delete/{SelectedItem.Item.Id}");
+                }
+                else if (SelectedItem is AppointmentViewModel)
+                {
+                    await new WebRequestHandler().Get($"http://localhost/TaskManagerAPI/appointment/delete/{SelectedItem.Item.Id}");
+                }
             }
         }
 
