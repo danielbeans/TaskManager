@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -10,18 +8,12 @@ namespace TaskManagerAPI.Models
     {
         public static int s_currentID = 1;
 
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string _id { get; set; }
-
         private int id;
         public int Id { get => id; set => id = value; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [BsonElement("Name")]
         private string name;
-        [BsonIgnore]
         public string Name
         {
             get => name;
@@ -34,9 +26,7 @@ namespace TaskManagerAPI.Models
             }
         }
 
-        [BsonElement("Description")]
         private string description;
-        [BsonIgnore]
         public string Description
         {
             get => description;
@@ -48,11 +38,8 @@ namespace TaskManagerAPI.Models
                 OnPropertyChanged(nameof(Description));
             }
         }
-
-        [BsonElement("DateAdded")]
         public DateTime DateAdded { get; }
 
-        [BsonElement("Priority")]
         public int Priority { get; set; }
 
         public Item()

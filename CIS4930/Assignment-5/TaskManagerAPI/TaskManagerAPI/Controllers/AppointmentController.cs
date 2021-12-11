@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManagerAPI.Models;
@@ -11,33 +10,34 @@ namespace TaskManagerAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TaskController : ControllerBase
+    public class AppointmentController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Models.Task> Get()
+        public IEnumerable<Appointment> Get()
         {
-            return Database.Current.Tasks;
+            return Database.Appointments;
         }
 
         [HttpPost("add")]
-        public Models.Task Add([FromBody] Models.Task task)
+        public Appointment Add([FromBody] Appointment appointment)
         {
             try
             {
-                return Database.Current.AddTask(task);
-            } catch (Exception)
+                return Database.AddAppointment(appointment);
+            }
+            catch (Exception)
             {
                 return null;
             }
         }
 
         [HttpPost("update")]
-        public bool Update([FromBody] Models.Task task)
+        public bool Update([FromBody] Appointment appointment)
         {
-            if (!Database.Current.UpdateTask(task))
-            { 
+            if (!Database.UpdateAppointment(appointment))
+            {
                 return false;
-            } 
+            }
 
             return true;
         }
@@ -48,8 +48,10 @@ namespace TaskManagerAPI.Controllers
         {
             try
             {
-                Database.Current.Delete(id);
-            } catch(Exception)
+                var appToDelete = Database.Appointments.FirstOrDefault(a => a.Id.ToString() == id);
+                Database.Appointments.Remove(appToDelete);
+            }
+            catch (Exception)
             {
                 return false;
             }

@@ -16,7 +16,7 @@ namespace TaskManagerAPI.Controllers
         [HttpGet]
         public IEnumerable<Models.Task> Get()
         {
-            return Database.Current.Tasks;
+            return Database.Tasks;
         }
 
         [HttpPost("add")]
@@ -24,7 +24,7 @@ namespace TaskManagerAPI.Controllers
         {
             try
             {
-                return Database.Current.AddTask(task);
+                return Database.AddTask(task);
             } catch (Exception)
             {
                 return null;
@@ -34,7 +34,7 @@ namespace TaskManagerAPI.Controllers
         [HttpPost("update")]
         public bool Update([FromBody] Models.Task task)
         {
-            if (!Database.Current.UpdateTask(task))
+            if (!Database.UpdateTask(task))
             { 
                 return false;
             } 
@@ -48,7 +48,8 @@ namespace TaskManagerAPI.Controllers
         {
             try
             {
-                Database.Current.Delete(id);
+                var taskToDelete = Database.Tasks.FirstOrDefault(a => a.Id.ToString() == id);
+                Database.Tasks.Remove(taskToDelete);
             } catch(Exception)
             {
                 return false;

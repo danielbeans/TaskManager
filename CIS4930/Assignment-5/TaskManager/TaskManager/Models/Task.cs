@@ -1,8 +1,7 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel;
 
-namespace TaskManagerAPI.Models
+namespace TaskManager.Models
 {
     public class Task: Item, INotifyPropertyChanged
     {
@@ -12,11 +11,8 @@ namespace TaskManagerAPI.Models
             Priority = 1;
         }
 
-        [BsonElement("Deadline")]
         public DateTime Deadline { get; set; }
-        [BsonElement("BoundDeadline")]
         private DateTimeOffset boundDeadline;
-        [BsonIgnore]
         public DateTimeOffset BoundDeadline
         {
             get
@@ -31,9 +27,7 @@ namespace TaskManagerAPI.Models
             }
         }
 
-        [BsonElement("IsCompleted")]
         private bool isCompleted;
-        [BsonIgnore]
         public bool IsCompleted
         {
             get
@@ -47,10 +41,8 @@ namespace TaskManagerAPI.Models
             }
         }
 
-        [BsonIgnore]
         public override bool Completed { get => IsCompleted; set => IsCompleted = value; }
 
-        [BsonElement("Display")]
         public override string Display => $"{Name}{(Completed ? " (Completed)" : "")}\n{Description}\n{Deadline.ToString("d")}\n(Task)";
     }
 }

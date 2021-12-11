@@ -15,7 +15,7 @@ namespace TaskManagerAPI.Controllers
         [HttpGet]
         public IEnumerable<Appointment> Get()
         {
-            return Database.Appointments;
+            return Database.Current.Appointments;
         }
 
         [HttpPost("add")]
@@ -23,7 +23,7 @@ namespace TaskManagerAPI.Controllers
         {
             try
             {
-                return Database.AddAppointment(appointment);
+                return Database.Current.AddAppointment(appointment);
             }
             catch (Exception)
             {
@@ -34,7 +34,7 @@ namespace TaskManagerAPI.Controllers
         [HttpPost("update")]
         public bool Update([FromBody] Appointment appointment)
         {
-            if (!Database.UpdateAppointment(appointment))
+            if (!Database.Current.UpdateAppointment(appointment))
             {
                 return false;
             }
@@ -48,8 +48,7 @@ namespace TaskManagerAPI.Controllers
         {
             try
             {
-                var appToDelete = Database.Appointments.FirstOrDefault(a => a.Id.ToString() == id);
-                Database.Appointments.Remove(appToDelete);
+                Database.Current.Delete(id);
             }
             catch (Exception)
             {

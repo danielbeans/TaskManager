@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -65,7 +64,6 @@ namespace TaskManagerAPI.Models
             }
         }
 
-        [BsonElement("Display")]
         public override string Display => $"{Name}\n{Description}\n{StartTime.ToString("d")} - {EndTime.ToString("d")}\n{attendeesString}\n(Appointment)";
 
     }
